@@ -8,8 +8,8 @@ BRANCH leaderboard-logic
 	- sortByScoreDescending
 	- Unit tests
     Files to edit:
-    	- leaderboard.js
-    	- utility.js
+    	- leaderboard.mjs
+    	- utility.mjs
     	- test files
 	
 BRANCH api-integration
@@ -18,7 +18,7 @@ BRANCH api-integration
 	- fetch all users
 	- api error handling
     Files to edit: 
-    	- api.js
+    	- api.mjs
     	- test file
 
 BRANCH basic-ui
@@ -33,7 +33,7 @@ BRANCH basic-ui
     	- fetch -> process
     	- render table
     Files to edit:
-	- main.js
+	- index.mjs
 	- index.html
 	
 BRANCH language-selector
@@ -41,7 +41,7 @@ BRANCH language-selector
     	- Dropdown Population
     	- Updating table when language changes
     Files to edit:
-    	- main.js
+    	- index.mjs
     	- index.html
     	- leaderboard.js
 
@@ -53,7 +53,7 @@ BRANCH error-handling
     	- user feedback in ui
     	- testing
     Files to edit:
-    	- main.js
+    	- index.mjs
     	- api.js
     	- index.html
     	- test files
@@ -61,8 +61,8 @@ BRANCH error-handling
 BRANCH accessibility
     Work on:
     	- lighthouse fixes
-	- semantic html
-	- highlight top user
+	    - semantic html
+	    - highlight top user
     Files to edit:
     	- index.html
     	- main.js
