@@ -10,7 +10,7 @@
 import test from "node:test";
 import assert from "node:assert";
 import nock from "nock";
-import { makeFetchRequest } from "./index.mjs";
+import { makeFetchRequest } from "./src/index.mjs";
 
 test("mocks a fetch function", async () => {
   // Create a fetch request "mock" using the nock library, which "replaces"
