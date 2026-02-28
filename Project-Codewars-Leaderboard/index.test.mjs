@@ -13,6 +13,7 @@ import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
 
 import { parseUsernames } from "./src/utility.mjs";
+import { getLanguages } from "./src/leaderboard.mjs";
 
 test("mocks a fetch function", async () => {
     // Create a fetch request "mock" using the nock library, which "replaces"
@@ -34,10 +35,67 @@ test("mocks a fetch function", async () => {
     assert(scope.isDone() === true, "No matching fetch request has been made");
 });
 
+
 test("mock test of parsing of string inputs separated by comma", () => {
     const input = "Jey, John, Joanne, Jhoie, Joxer, Jojo, Juba";
     const output = ["Jey", "John", "Joanne", "Jhoie", "Joxer", "Jojo", "Juba"];
     assert.deepStrictEqual(parseUsernames(input), output);
+})
+
+
+test("mock test of getting the array of languages of users to be shown in the dropdown selection", () => {
+    const mockData = [
+        {
+            "username": "alice",
+            "name": "Alice Example",
+            "honor": 1500,
+            "clan": "Alpha",
+            "leaderboardPosition": 42,
+            "skills": ["javascript", "ruby", "python"],
+            "ranks": {
+                "overall": { "rank": -3, "name": "3 kyu", "color": "blue", "score": 2000 },
+                "languages": {
+                    "javascript": { "rank": -3, "name": "3 kyu", "color": "blue", "score": 1500 },
+                    "ruby": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 1000 }
+                }
+            },
+            "codeChallenges": { "totalAuthored": 2, "totalCompleted": 120 }
+        },
+        {
+            "username": "bob",
+            "name": "Bob Example",
+            "honor": 1200,
+            "clan": "Beta",
+            "leaderboardPosition": 85,
+            "skills": ["javascript", "python", "c#"],
+            "ranks": {
+                "overall": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 1800 },
+                "languages": {
+                    "javascript": { "rank": -3, "name": "3 kyu", "color": "blue", "score": 1200 },
+                    "python": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 900 }
+                }
+            },
+            "codeChallenges": { "totalAuthored": 1, "totalCompleted": 95 }
+        },
+        {
+            "username": "carol",
+            "name": "Carol Example",
+            "honor": 900,
+            "clan": "Gamma",
+            "leaderboardPosition": 120,
+            "skills": ["ruby", "coffeescript", "nodejs"],
+            "ranks": {
+            "overall": { "rank": -5, "name": "5 kyu", "color": "blue", "score": 1600 },
+                "languages": {
+                    "ruby": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 1100 },
+                    "coffeescript": { "rank": -5, "name": "5 kyu", "color": "blue", "score": 700 }
+                }
+            },
+            "codeChallenges": { "totalAuthored": 0, "totalCompleted": 60 }
+        }
+    ];
+    const output = ["coffeescript", "javascript", "python", "ruby"];
+    assert.deepStrictEqual(getLanguages(mockData), output);
 })
 
 

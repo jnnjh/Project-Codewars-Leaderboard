@@ -12,6 +12,5 @@ export function getLanguages(users) {
             }
         }
     }
-    languages.sort();
-    return languages;
+    return languages.sort();
 }
