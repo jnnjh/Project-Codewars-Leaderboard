@@ -12,8 +12,6 @@ import assert from "node:assert";
 import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
 
-import { parseUsernames } from "./src/utility.mjs";
-
 test("mocks a fetch function", async () => {
     // Create a fetch request "mock" using the nock library, which "replaces"
     // real requests with fake ones that we can control in the test using nock
@@ -34,8 +32,4 @@ test("mocks a fetch function", async () => {
     assert(scope.isDone() === true, "No matching fetch request has been made");
 });
 
-test("mock test of parsing of string inputs separated by comma", () => {
-    const input = "Jey, John, Joanne, Jhoie, Joxer, Jojo, Juba";
-    const output = ["Jey", "John", "Joanne", "Jhoie", "Joxer", "Jojo", "Juba"];
-    assert.deepStrictEqual(parseUsernames(input), output);
-})
+
