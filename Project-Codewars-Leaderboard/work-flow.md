@@ -1,4 +1,4 @@
-/* The workflow and planned branches that i will do in this project...
+The workflow and planned branches that i will do in this project...
 
 BRANCH leaderboard-logic
     Work on:
@@ -67,6 +67,4 @@ BRANCH accessibility
     	- index.html
     	- main.js
     	- style.css
-
-*/
 
