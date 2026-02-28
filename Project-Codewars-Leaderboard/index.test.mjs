@@ -12,24 +12,30 @@ import assert from "node:assert";
 import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
 
-import { parseUsername } from "./src/utility.mjs";
+import { parseUsernames } from "./src/utility.mjs";
 
 test("mocks a fetch function", async () => {
-  // Create a fetch request "mock" using the nock library, which "replaces"
-  // real requests with fake ones that we can control in the test using nock
-  // functions.
-  // In this example, we set up nock so that it looks for GET requests to
-  // https://example.com/test (no other URLs will work) and responds with a 200
-  // HTTP status code, and the body {"user": "someone"}.
-  const scope = nock("https://example.com").get("/test").reply(200, JSON.stringify({ user: "someone" }));
+    // Create a fetch request "mock" using the nock library, which "replaces"
+    // real requests with fake ones that we can control in the test using nock
+    // functions.
+    // In this example, we set up nock so that it looks for GET requests to
+    // https://example.com/test (no other URLs will work) and responds with a 200
+    // HTTP status code, and the body {"user": "someone"}.
+    const scope = nock("https://example.com").get("/test").reply(200, JSON.stringify({ user: "someone" }));
 
-  // Check that the response we got back included the fake body we set up.
-  const response = await makeFetchRequest();
-  const parsedResponse = await response.json();
-  assert(parsedResponse.user === "someone");
+    // Check that the response we got back included the fake body we set up.
+    const response = await makeFetchRequest();
+    const parsedResponse = await response.json();
+    assert(parsedResponse.user === "someone");
 
-  // Ensure that a fetch request has been replaced by the nock library. This
-  // helps ensure that you're not making real fetch requests that don't match
-  // the nock configuration.
-  assert(scope.isDone() === true, "No matching fetch request has been made");
+    // Ensure that a fetch request has been replaced by the nock library. This
+    // helps ensure that you're not making real fetch requests that don't match
+    // the nock configuration.
+    assert(scope.isDone() === true, "No matching fetch request has been made");
 });
+
+test("mock test of parsing of string inputs separated by comma", () => {
+    const input = "Jey, John, Joanne, Jhoie, Joxer, Jojo, Juba";
+    const output = ["Jey", "John", "Joanne", "Jhoie", "Joxer", "Jojo", "Juba"];
+    assert.deepStrictEqual(parseUsernames(input), output);
+})
