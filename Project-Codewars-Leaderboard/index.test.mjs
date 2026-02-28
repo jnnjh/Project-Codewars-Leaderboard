@@ -13,7 +13,7 @@ import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
 
 import { parseUsernames } from "./src/utility.mjs";
-import { getLanguages } from "./src/leaderboard.mjs";
+import { getLanguages, getLeaderboardData } from "./src/leaderboard.mjs";
 
 const mockData = [
         {
@@ -100,5 +100,12 @@ test("mock test of getting the array of languages(and overall) of users to be sh
 })
 
 
-
+test("mock test of getting the leaderboard data of users depending on the language selected", () => {
+    const selectedLanguage = "javascript"
+    const output = [
+            { username: 'alice', clan: 'Alpha', score: 1500 },
+            { username: 'bob', clan: 'Beta', score: 1200 }
+        ];
+    assert.deepStrictEqual(getLeaderboardData(mockData, selectedLanguage), output);
+})
 
