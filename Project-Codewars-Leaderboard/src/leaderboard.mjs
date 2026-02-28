@@ -12,5 +12,8 @@ export function getLanguages(users) {
             }
         }
     }
-    return languages.sort();
+    const sortedLanguages = languages.sort();
+    sortedLanguages.unshift("overall");
+
+    return sortedLanguages;
 }
