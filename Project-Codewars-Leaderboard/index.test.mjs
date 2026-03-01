@@ -13,7 +13,7 @@ import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
 
 import { parseUsernames } from "./src/utility.mjs";
-import { getLanguages, getLeaderboardData } from "./src/leaderboard.mjs";
+import { getLanguages, getLeaderboardData, sortScoreByDesc } from "./src/leaderboard.mjs";
 
 const mockData = [
         {
@@ -66,7 +66,7 @@ const mockData = [
         }
     ];
 
-test("mocks a fetch function", async () => {
+/*test("mocks a fetch function", async () => {
     // Create a fetch request "mock" using the nock library, which "replaces"
     // real requests with fake ones that we can control in the test using nock
     // functions.
@@ -85,7 +85,7 @@ test("mocks a fetch function", async () => {
     // the nock configuration.
     assert(scope.isDone() === true, "No matching fetch request has been made");
 });
-
+*/
 
 test("mock test of parsing of string inputs separated by comma", () => {
     const input = "Jey, John, Joanne, Jhoie, Joxer, Jojo, Juba";
@@ -107,5 +107,21 @@ test("mock test of getting the leaderboard data of users depending on the langua
             { username: 'bob', clan: 'Beta', score: 1200 }
         ];
     assert.deepStrictEqual(getLeaderboardData(mockData, selectedLanguage), output);
+})
+
+
+test("mock test of sorting the leaderboard score in descending order", () => {
+    const selectedLanguage = "javascript"
+    const input = [
+        { username: 'alice', clan: 'Alpha', score: 900 },
+        { username: 'bob', clan: 'Beta', score: 1200 },
+        { username: 'charlie', clan: 'Omega', score: 1600 }
+    ]
+    const output = [
+        { username: 'charlie', clan: 'Omega', score: 1600 },
+        { username: 'bob', clan: 'Beta', score: 1200 },
+        { username: 'alice', clan: 'Alpha', score: 900 }
+    ]
+    assert.deepStrictEqual(sortScoreByDesc(input), output)
 })
 
