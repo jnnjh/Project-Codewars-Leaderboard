@@ -93,15 +93,20 @@ test("mock test of parsing of string inputs separated by comma", () => {
     assert.deepStrictEqual(parseUsernames(input), output);
 })
 test("wehn parsing the usernames, it also trims spaces", () => {
-    const input = " Alice , Bob , Carol ";
-    const output = ["Alice", "Bob", "Carol"];
+    const input = " Joanne , Joxer , Juju ";
+    const output = ["Joanne", "Joxer", "Juju"];
     assert.deepStrictEqual(parseUsernames(input), output);
 })
 test("when parsing empty strings, it will return empty array", () => {
     assert.deepStrictEqual(parseUsernames(""), []);
 })
 test("when only one username is inputed, it will return an array with only that input", () => {
-    assert.deepStrictEqual(parseUsernames("Alice"), ["Alice"]);
+    assert.deepStrictEqual(parseUsernames("Jhoie"), ["Jhoie"]);
+})
+test("when parsing and there are consecutive commas but are empty, it will ignore all those empty spaces", () => {
+    const input = "John, , , Joanne, , Juju,   , Jeff";
+    const output = ["John", "Joanne", "Juju", "Jeff"];
+    assert.deepStrictEqual(parseUsernames(input), output);
 })
 
 
