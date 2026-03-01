@@ -92,6 +92,17 @@ test("mock test of parsing of string inputs separated by comma", () => {
     const output = ["Jey", "John", "Joanne", "Jhoie", "Joxer", "Jojo", "Juba"];
     assert.deepStrictEqual(parseUsernames(input), output);
 })
+test("wehn parsing the usernames, it also trims spaces", () => {
+    const input = " Alice , Bob , Carol ";
+    const output = ["Alice", "Bob", "Carol"];
+    assert.deepStrictEqual(parseUsernames(input), output);
+})
+test("when parsing empty strings, it will return empty array", () => {
+    assert.deepStrictEqual(parseUsernames(""), []);
+})
+test("when only one username is inputed, it will return an array with only that input", () => {
+    assert.deepStrictEqual(parseUsernames("Alice"), ["Alice"]);
+})
 
 
 test("mock test of getting the array of languages(and overall) of users to be shown in the dropdown selection", () => {

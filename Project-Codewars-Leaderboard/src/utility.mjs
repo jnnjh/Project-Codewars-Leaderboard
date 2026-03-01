@@ -4,6 +4,7 @@
 
 //this function split username inputs that are separated by comma and put them in an array.
 export function parseUsernames(usernames) {
+    if(usernames === "") return [];
     const usernameInput = usernames.split(",").map(name => name.trim());
     return usernameInput;
 }
