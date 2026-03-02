@@ -127,7 +127,6 @@ test("mock test of getting the leaderboard data of users depending on the langua
 
 
 test("mock test of sorting the leaderboard score in descending order", () => {
-    const selectedLanguage = "javascript"
     const input = [
         { username: 'alice', clan: 'Alpha', score: 900 },
         { username: 'bob', clan: 'Beta', score: 1200 },
