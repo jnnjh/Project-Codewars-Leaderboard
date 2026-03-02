@@ -11,10 +11,19 @@ async function fetchUser(username) {
         }
 
         const result = await response.json();
-        console.log(result);
+        return result;
     } catch (error) {
         console.error(error.message);
     }
 }
 
-fetchUser("jnnjh");
+//fetchUser("jnnjh");
+
+async function fetchAllUser(usernames) {
+    const promises = usernames.map(username => fetchUser(username));
+    const data = await Promise.all(promises)
+    console.log(data);
+    return data;
+}
+
+fetchAllUser(['jnnjh', 'CodeYourFuture']);
