@@ -11,7 +11,16 @@ async function fetchUser(username) {
         }
 
         const result = await response.json();
-        return result;
+        const data = {
+            username: result.username,
+            clan: result.clan,
+            ranks: {
+                overall: result.ranks.overall,
+                languages: result.ranks.languages
+            }
+        }
+        //console.log(data);
+        return data;
     } catch (error) {
         console.error(error.message);
     }
