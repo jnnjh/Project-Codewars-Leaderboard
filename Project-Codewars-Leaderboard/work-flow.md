@@ -15,11 +15,11 @@ BRANCH leaderboard-logic
 BRANCH api-integration
     Work on: 
     	- fetch users
-	- fetch all users
-	- api error handling
+		- fetch all users
+		- api error handling
     Files to edit: 
     	- api.mjs
-    	- test file
+    	- test file (api.test.mjs)
 
 BRANCH basic-ui
     Work on:
