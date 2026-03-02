@@ -1,6 +1,6 @@
 // will be used for all fetching logics and error handlings
 
-async function fetchUser(username) {
+export async function fetchUser(username) {
     const url = "https://codewars.com/api/v1/users/" + username;
 
     try {
@@ -15,7 +15,7 @@ async function fetchUser(username) {
             username: result.username,
             clan: result.clan,
             ranks: {
-                overall: result.ranks.overall,
+                overall: {score: result.ranks.overall.score},
                 languages: result.ranks.languages
             }
         }
@@ -28,11 +28,11 @@ async function fetchUser(username) {
 
 //fetchUser("jnnjh");
 
-async function fetchAllUser(usernames) {
+export async function fetchAllUser(usernames) {
     const promises = usernames.map(username => fetchUser(username));
     const data = await Promise.all(promises)
-    console.log(data);
+    //console.log(data);
     return data;
 }
 
-fetchAllUser(['jnnjh', 'CodeYourFuture']);
+//fetchAllUser(['jnnjh', 'CodeYourFuture']);
