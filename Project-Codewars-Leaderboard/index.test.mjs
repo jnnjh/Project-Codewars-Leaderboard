@@ -112,4 +112,32 @@ test("fetchUser handles users with no clan", async () => {
 
 });
 
+test("fetchUser returns all language ranks", async () => {
+
+    const mockResponse = {
+        username: "jhoie",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 2000 },
+            languages: {
+                javascript: { score: 1000 },
+                python: { score: 800 },
+                ruby: { score: 600 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/jhoie")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("jhoie");
+
+    assert.deepStrictEqual(result.ranks.languages, {
+        javascript: { score: 1000 },
+        python: { score: 800 },
+        ruby: { score: 600 }
+    });
+
+});
 
