@@ -30,6 +30,16 @@ if (typeof document !== "undefined") {
 
         try {
             users = await fetchAllUsers(usernames);
+
+            const languages = getLanguages(users);
+            languageSelect.innerHTML = "";
+            languages.forEach((language) => {
+                const option = document.createElement("option");
+                option.value = language;
+                option.textContent = language;
+                languageSelect.appendChild(option);
+            });
+
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
         } catch(error) {
@@ -66,12 +76,5 @@ if (typeof document !== "undefined") {
         });
     }
 
-    const languages = getLanguages(users);
-    languageSelect.innerHTML = "";
-    languages.forEach((language) => {
-        const option = document.createElement("option");
-        option.value = language;
-        option.textContent = language;
-        languageSelect.appendChild(option);
-    });
+
 }
