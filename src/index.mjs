@@ -39,6 +39,12 @@ if (typeof document !== "undefined") {
                 errorMessage.textContent = `Users not found: ${result.invalidUsers.join(", ")}`;
             }
 
+            if (users.length === 0) {
+                languageSelect.innerHTML = "";
+                languageSelect.disabled = true;
+                return;
+            }
+
             const languages = getLanguages(users);
             languageSelect.innerHTML = "";
             languages.forEach((language) => {
