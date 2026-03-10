@@ -22,7 +22,7 @@ export async function fetchUser(username) {
         console.log(data);
         return data;
     } catch (error) {
-        console.error(error.message);
+        throw(error);
     }
 }
 

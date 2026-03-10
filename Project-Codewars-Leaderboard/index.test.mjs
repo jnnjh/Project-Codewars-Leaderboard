@@ -141,3 +141,17 @@ test("fetchUser returns all language ranks", async () => {
 
 });
 
+test("fetchUser handles API 404 errors", async () => {
+
+  nock("https://www.codewars.com")
+    .get("/api/v1/users/unknownuser")
+    .reply(404, {});
+
+  await assert.rejects(
+    async () => {
+      await fetchUser("unknownuser");
+    }
+  );
+
+});
+
