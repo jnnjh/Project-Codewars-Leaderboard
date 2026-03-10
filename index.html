@@ -6,37 +6,37 @@
         <title>Codewars Leaderboard</title>
         <link rel="stylesheet" href="./assets/style.css">
     </head>
-
     <body>
+        <header>
+            <h1>Codewars Leaderboard</h1>
+        </header>
+        <main id="container">
+            <form id="user-form">
+                <label for="user-input">Enter Codewars usernames</label>
+                <input
+                    id="user-input"
+                    type="text"
+                >
+                <button type="submit">Generate Leaderboard</button>
+            </form>
 
-        <h1>Codewars Leaderboard</h1>
-        <form id="user-form">
-            <label for="user-input">Enter Codewars usernames</label>
-            <input
-                id="user-input"
-                type="text"
-            >
-            <button type="submit">Generate Leaderboard</button>
-        </form>
+            <label for="language-select">Ranking:</label>
+            <select id="language-select"></select>
 
-        <label for="language-select">Ranking:</label>
-        <select id="language-select"></select>
+            <p id="error-message" aria-live="polite"></p>
 
-        <p id="error-message" aria-live="polite"></p>
-
-        <table id="leaderboard-table">
-            <caption>Leaderboard ranking for selected Codewars users</caption>
-            <thead>
-                <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Clan</th>
-                    <th scope="col">Score</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboard-body"></tbody>
-        </table>
-
+            <table id="leaderboard-table">
+                <caption>Leaderboard ranking for selected Codewars users</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Clan</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body"></tbody>
+            </table>
+        </main>
         <script type="module" src="./src/index.mjs"></script>
-
     </body>
 </html>
