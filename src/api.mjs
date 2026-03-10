@@ -48,11 +48,10 @@ export async function fetchAllUsers(usernames) {
         }
     }
 
-    if (invalidUsers.length > 0) {
-        throw new Error(`Users not found: ${invalidUsers.join(", ")}`);
-    }
-
-    return validUsers;
+    return {
+        validUsers,
+        invalidUsers
+    };
 }
 
 //fetchAllUser(['jnnjh', 'CodeYourFuture']);

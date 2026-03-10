@@ -31,7 +31,13 @@ if (typeof document !== "undefined") {
         }
 
         try {
-            users = await fetchAllUsers(usernames);
+            const result = await fetchAllUsers(usernames);
+
+            users = result.validUsers;
+
+            if (result.invalidUsers.length > 0) {
+                errorMessage.textContent = `Users not found: ${result.invalidUsers.join(", ")}`;
+            }
 
             const languages = getLanguages(users);
             languageSelect.innerHTML = "";
