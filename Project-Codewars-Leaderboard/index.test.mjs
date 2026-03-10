@@ -180,7 +180,7 @@ test("fetchUser returns correctly formatted user data", async () => {
         .reply(200, mockResponse);
 
     const result = await fetchUser("john");
-    console.log(result);
+    //console.log(result);
 
     assert.deepStrictEqual(result, {
         username: "john",
