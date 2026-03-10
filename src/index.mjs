@@ -14,6 +14,8 @@ if (typeof document !== "undefined") {
     const errorMessage = document.querySelector("#error-message");
     const languageSelect = document.querySelector("#language-select");
 
+    languageSelect.disabled = true;
+
     form.addEventListener("submit", async(event) => {
         event.preventDefault();
 
@@ -40,11 +42,14 @@ if (typeof document !== "undefined") {
                 languageSelect.appendChild(option);
             });
 
+            languageSelect.disabled = false;
+
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
         } catch(error) {
             users = [];
-            languageSelect.innerHTML = ""
+            languageSelect.innerHTML = "";
+            languageSelect.disabled = true;
             errorMessage.textContent = error.message;
         }
     });
