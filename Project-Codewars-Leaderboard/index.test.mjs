@@ -11,7 +11,7 @@ import test from "node:test";
 import assert from "node:assert";
 import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
-import { fetchUser, fetchAllUser} from "./src/api.mjs";
+import { fetchUser, fetchAllUsers} from "./src/api.mjs";
 
 test("mocks a fetch function", async () => {
     // Create a fetch request "mock" using the nock library, which "replaces"
@@ -223,7 +223,7 @@ test("fetchAllUser returns data for multiple users", async () => {
         .get("/api/v1/users/jhoie")
         .reply(200, mockUser2);
 
-    const result = await fetchAllUser(["joanne", "jhoie"]);
+    const result = await fetchAllUsers(["joanne", "jhoie"]);
 
     assert.strictEqual(result.length, 2);
     assert.strictEqual(result[0].username, "joanne");

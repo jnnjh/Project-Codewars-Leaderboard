@@ -6,9 +6,13 @@ export async function fetchUser(username) {
     try {
         const response = await fetch(url);
 
-        if(!response.ok) {
-            throw new Error (`Response status: ${response.status}`);
-        }
+        if (!response.ok) {
+            if (response.status === 404) {
+                throw new Error(`User "${username}" not found`);
+            } else {
+                throw new Error(`Failed to fetch user "${username}"`);
+            }
+        }   
 
         const result = await response.json();
         const data = {
@@ -22,13 +26,13 @@ export async function fetchUser(username) {
         console.log(data);
         return data;
     } catch (error) {
-        throw(error);
+        throw new Error(`Unable to reach Codewars API while fetching "${username}"`);
     }
 }
 
-//fetchUser("jnnjh");
+//fetchUser("jnn33");
 
-export async function fetchAllUser(usernames) {
+export async function fetchAllUsers(usernames) {
     const promises = usernames.map(username => fetchUser(username));
     const data = await Promise.all(promises)
     //console.log(data);
