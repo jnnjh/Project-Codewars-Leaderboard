@@ -36,10 +36,23 @@ export async function fetchUser(username) {
 //fetchUser("jnn33");
 
 export async function fetchAllUsers(usernames) {
-    const promises = usernames.map(username => fetchUser(username));
-    const data = await Promise.all(promises)
-    //console.log(data);
-    return data;
+    const validUsers = [];
+    const invalidUsers = [];
+
+    for (const username of usernames) {
+        try {
+            const user = await fetchUser(username);
+            validUsers.push(user);
+        } catch (error) {
+            invalidUsers.push(username);
+        }
+    }
+
+    if (invalidUsers.length > 0) {
+        throw new Error(`Users not found: ${invalidUsers.join(", ")}`);
+    }
+
+    return validUsers;
 }
 
 //fetchAllUser(['jnnjh', 'CodeYourFuture']);
