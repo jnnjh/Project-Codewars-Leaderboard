@@ -37,6 +37,12 @@ if (typeof document !== "undefined") {
         }
     });
 
+    languageSelect.addEventListener("change", () => {
+        const selectedLanguage = languageSelect.value;
+        const leaderboard = getLeaderboardData(users, selectedLanguage);
+        renderTable(leaderboard);
+    });
+
     function renderTable(data) {
         tableBody.innerHTML = "";
 
