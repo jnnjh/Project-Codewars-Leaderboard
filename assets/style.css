@@ -195,16 +195,3 @@ tbody tr:hover {
   }
 
 }
-
-.score-bar {
-  height: 6px;
-  background: #2f2f5e;
-  border-radius: 4px;
-  margin-top: 4px;
-}
-
-.score-fill {
-  height: 100%;
-  background: #7c3aed;
-  border-radius: 4px;
-}
