@@ -14,6 +14,8 @@ if (typeof document !== "undefined") {
     const errorMessage = document.querySelector("#error-message");
     const languageSelect = document.querySelector("#language-select");
 
+    languageSelect.disabled = true;
+
     form.addEventListener("submit", async(event) => {
         event.preventDefault();
 
@@ -29,7 +31,19 @@ if (typeof document !== "undefined") {
         }
 
         try {
-            users = await fetchAllUsers(usernames);
+            const result = await fetchAllUsers(usernames);
+
+            users = result.validUsers;
+
+            if (result.invalidUsers.length > 0) {
+                errorMessage.textContent = `Users not found: ${result.invalidUsers.join(", ")}`;
+            }
+
+            if (users.length === 0) {
+                languageSelect.innerHTML = "";
+                languageSelect.disabled = true;
+                return;
+            }
 
             const languages = getLanguages(users);
             languageSelect.innerHTML = "";
@@ -40,14 +54,23 @@ if (typeof document !== "undefined") {
                 languageSelect.appendChild(option);
             });
 
+            languageSelect.disabled = false;
+
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
         } catch(error) {
+            users = [];
+            languageSelect.innerHTML = "";
+            languageSelect.disabled = true;
             errorMessage.textContent = error.message;
         }
     });
 
     languageSelect.addEventListener("change", () => {
+        if(users.length === 0) return
+
+        errorMessage.textContent = "";
+
         const selectedLanguage = languageSelect.value;
         const leaderboard = getLeaderboardData(users, selectedLanguage);
         renderTable(leaderboard);

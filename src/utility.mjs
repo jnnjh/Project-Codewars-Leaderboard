@@ -4,9 +4,9 @@
 
 //this function split username inputs that are separated by comma and put them in an array.
 export function parseUsernames(usernames) {
-    if(usernames === "") return [];
+    if(!usernames) return [];
     const usernameInput = usernames.split(",").map(name => name.trim()).filter(name => name !== "");
-    return usernameInput;
+    return [...new Set(usernameInput)];
 }
 
 //parseUsernames("Jey, , ,   , John, Joanne, Jhoie, Joxer, Jojo, Juba");
