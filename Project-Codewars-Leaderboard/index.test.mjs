@@ -56,5 +56,38 @@ test("fetchUser returns a user from the Codewars API", async () => {
 
 });
 
+test("fetchUser returns correctly formatted user data", async () => {
+
+    const mockResponse = {
+        username: "john",
+        clan: "warriors",
+        ranks: {
+            overall: { score: 1500 },
+            languages: {
+                javascript: { score: 800 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/john")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("john");
+    console.log(result);
+
+    assert.deepStrictEqual(result, {
+        username: "john",
+        clan: "warriors",
+        ranks: {
+            overall: { score: 1500 },
+            languages: {
+                javascript: { score: 800 }
+            }
+        }
+    });
+
+});
+
 
 

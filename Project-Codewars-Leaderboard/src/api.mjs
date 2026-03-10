@@ -1,7 +1,7 @@
 // will be used for all fetching logics and error handlings
 
 export async function fetchUser(username) {
-    const url = "https://codewars.com/api/v1/users/" + username;
+    const url = "https://www.codewars.com/api/v1/users/" + username;
 
     try {
         const response = await fetch(url);
@@ -19,7 +19,7 @@ export async function fetchUser(username) {
                 languages: result.ranks.languages
             }
         }
-        //console.log(data);
+        console.log(data);
         return data;
     } catch (error) {
         console.error(error.message);
