@@ -23,7 +23,7 @@ export async function fetchUser(username) {
                 languages: result.ranks.languages
             }
         }
-        console.log(data);
+        //console.log(data);
         return data;
     } catch (error) {
         throw new Error(`Unable to reach Codewars API while fetching "${username}"`);

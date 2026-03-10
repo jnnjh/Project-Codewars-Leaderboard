@@ -1,16 +1,18 @@
 import { parseUsernames } from "./utility.mjs";
-import { fetchUser, fetchAllUsers } from "./api.mjs";
-import { getLeaderboardData } from "./leaderboard.mjs";
+import { fetchAllUsers } from "./api.mjs";
+import { getLeaderboardData, getLanguages } from "./leaderboard.mjs";
 
 export function makeFetchRequest() {
   return fetch("https://example.com/test");
 }
+let users = [];
 
 if (typeof document !== "undefined") {
     const form = document.querySelector("#user-form");
     const input = document.querySelector("#user-input");
     const tableBody = document.querySelector("#leaderboard-body");
     const errorMessage = document.querySelector("#error-message");
+    const languageSelect = document.querySelector("#language-select");
 
     form.addEventListener("submit", async(event) => {
         event.preventDefault();
@@ -27,12 +29,28 @@ if (typeof document !== "undefined") {
         }
 
         try {
-            const users = await fetchAllUsers(usernames);
+            users = await fetchAllUsers(usernames);
+
+            const languages = getLanguages(users);
+            languageSelect.innerHTML = "";
+            languages.forEach((language) => {
+                const option = document.createElement("option");
+                option.value = language;
+                option.textContent = language;
+                languageSelect.appendChild(option);
+            });
+
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
         } catch(error) {
             errorMessage.textContent = error.message;
         }
+    });
+
+    languageSelect.addEventListener("change", () => {
+        const selectedLanguage = languageSelect.value;
+        const leaderboard = getLeaderboardData(users, selectedLanguage);
+        renderTable(leaderboard);
     });
 
     function renderTable(data) {
