@@ -190,3 +190,46 @@ test("fetchUser works for multiple users", async () => {
     assert.strictEqual(user2.username, "jhoie");
 
 });
+
+test("fetchAllUser returns data for multiple users", async () => {
+
+    const mockUser1 = {
+        username: "joanne",
+        clan: "migracode",
+        ranks: {
+            overall: { score: 1000 },
+            languages: {
+                javascript: { score: 500 }
+            }
+        }
+    };
+
+    const mockUser2 = {
+        username: "jhoie",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 1200 },
+            languages: {
+                python: { score: 700 }
+            }
+        }
+    };
+
+    const scope1 = nock("https://www.codewars.com")
+        .get("/api/v1/users/joanne")
+        .reply(200, mockUser1);
+
+    const scope2 = nock("https://www.codewars.com")
+        .get("/api/v1/users/jhoie")
+        .reply(200, mockUser2);
+
+    const result = await fetchAllUser(["joanne", "jhoie"]);
+
+    assert.strictEqual(result.length, 2);
+    assert.strictEqual(result[0].username, "joanne");
+    assert.strictEqual(result[1].username, "jhoie");
+
+    assert(scope1.isDone());
+    assert(scope2.isDone());
+
+});
