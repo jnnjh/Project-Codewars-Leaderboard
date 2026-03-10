@@ -9,18 +9,29 @@ export function makeFetchRequest() {
 const form = document.querySelector("#user-form");
 const input = document.querySelector("#user-input");
 const tableBody = document.querySelector("#leaderboard-body");
+const errorMessage = document.querySelector("#error-message");
 
-form.addEventListener("submit", async (event) => {
+form.addEventListener("submit", async(event) => {
     event.preventDefault();
+
+    errorMessage.textContent = "";
+    tableBody.innerHTML = "";
 
     const inputValue = input.value;
     const usernames = parseUsernames(inputValue);
 
-    const users = await fetchAllUsers(usernames);
-    const leaderboard = getLeaderboardData(users, "overall");
+    if(usernames.length === 0) {
+        errorMessage.textContent = "Please enter at least one username.";
+        return;
+    }
 
-    //console.log(usernames);
-    renderTable(leaderboard);
+    try {
+        const users = await fetchAllUsers(usernames);
+        const leaderboard = getLeaderboardData(users, "overall");
+        renderTable(leaderboard);
+    } catch(error) {
+        errorMessage.textContent = error.message;
+    }
 });
 
 function renderTable(data) {
