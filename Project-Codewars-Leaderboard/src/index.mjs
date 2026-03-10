@@ -12,6 +12,7 @@ form.addEventListener("submit", async (event) => {
     const usernames = parseUsernames(inputValue);
 
     const users = await fetchAllUsers(usernames);
+    const leaderboard = getLeaderboardData(users, "overall");
 
     console.log(usernames);
 });
