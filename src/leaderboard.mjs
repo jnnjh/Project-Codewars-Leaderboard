@@ -6,7 +6,7 @@ export function getLanguages(users) {
         if (!user.ranks || !user.ranks.languages) continue;
         let availableLanguages = user.ranks.languages
 
-        for(let [language, val] of Object.entries(availableLanguages)) {
+        for(let language of Object.keys(availableLanguages)) {
             if(!languages.includes(language)) {
                 languages.push(language);
             }
