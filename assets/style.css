@@ -2,3 +2,12 @@
   color: red;
   font-weight: bold;
 }
+
+.top-user {
+  background-color: gold;
+  font-weight: bold;
+}
+
+.top-user td:first-child::before {
+  content: "🏆 ";
+}
