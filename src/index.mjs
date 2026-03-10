@@ -58,6 +58,7 @@ if (typeof document !== "undefined") {
 
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
+            input.value = "";
         } catch(error) {
             users = [];
             languageSelect.innerHTML = "";
@@ -79,8 +80,12 @@ if (typeof document !== "undefined") {
     function renderTable(data) {
         tableBody.innerHTML = "";
 
-        data.forEach((user) => {
+        data.forEach((user, index) => {
             const row = document.createElement("tr");
+
+            if(index === 0){
+                row.classList.add("top-user");
+            }
 
             const usernameCell = document.createElement("td");
             usernameCell.textContent = user.username;
