@@ -1,5 +1,5 @@
 import { parseUsernames } from "./utility.mjs";
-import { fetchUser, fetchAllUsers } from "./api.mjs";
+import { fetchAllUsers } from "./api.mjs";
 import { getLeaderboardData, getLanguages } from "./leaderboard.mjs";
 
 export function makeFetchRequest() {
