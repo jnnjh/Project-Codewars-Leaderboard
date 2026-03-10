@@ -133,6 +133,7 @@ tbody tr:nth-child(3) td:first-child::before {
 tbody tr:hover {
   background: #252550;
   transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(124,58,237,0.25);
 }
 
 .top-user {
