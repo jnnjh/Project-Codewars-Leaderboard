@@ -6,10 +6,12 @@ const form = document.querySelector("#user-form");
 const input = document.querySelector("#user-input");
 
 form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  const inputValue = input.value;
-  const usernames = parseUsernames(inputValue);
+    const inputValue = input.value;
+    const usernames = parseUsernames(inputValue);
 
-  console.log(usernames);
+    const users = await fetchAllUsers(usernames);
+
+    console.log(usernames);
 });
