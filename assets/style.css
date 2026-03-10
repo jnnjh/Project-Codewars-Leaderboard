@@ -106,6 +106,15 @@ td {
 tbody tr {
   animation: rowFade 0.35s ease forwards;
 }
+tbody tr:nth-child(1) td:first-child::before {
+  content: "🥇 ";
+}
+tbody tr:nth-child(2) td:first-child::before {
+  content: "🥈 ";
+}
+tbody tr:nth-child(3) td:first-child::before {
+  content: "🥉 ";
+}
 
 tbody tr:hover {
   background: #252550;
@@ -117,10 +126,6 @@ tbody tr:hover {
   font-weight: bold;
   color: white;
   animation: glow 2s infinite alternate;
-}
-
-.top-user td:first-child::before {
-  content: "🏆 ";
 }
 
 #error-message {
