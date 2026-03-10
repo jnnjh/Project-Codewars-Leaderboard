@@ -33,6 +33,28 @@ test("mocks a fetch function", async () => {
     assert(scope.isDone() === true, "No matching fetch request has been made");
 });
 
+test("fetchUser returns a user from the Codewars API", async () => {
+
+    const mockResponse = {
+        username: "joanne",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 1200 },
+            languages: {
+                javascript: { score: 600 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/joanne")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("joanne");
+
+    assert.strictEqual(result.username, "joanne");
+
+});
 
 
 
