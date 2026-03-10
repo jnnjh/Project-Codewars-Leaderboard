@@ -331,9 +331,9 @@ test("fetchAllUser returns data for multiple users", async () => {
 
     const result = await fetchAllUsers(["joanne", "jhoie"]);
 
-    assert.strictEqual(result.length, 2);
-    assert.strictEqual(result[0].username, "joanne");
-    assert.strictEqual(result[1].username, "jhoie");
+    assert.strictEqual(result.validUsers.length, 2);
+    assert.strictEqual(result.validUsers[0].username, "joanne");
+    assert.strictEqual(result.validUsers[1].username, "jhoie");
 
     assert(scope1.isDone());
     assert(scope2.isDone());
