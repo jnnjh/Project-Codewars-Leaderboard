@@ -12,6 +12,7 @@ if (typeof document !== "undefined") {
     const input = document.querySelector("#user-input");
     const tableBody = document.querySelector("#leaderboard-body");
     const errorMessage = document.querySelector("#error-message");
+    const languageSelect = document.querySelector("#language-select");
 
     form.addEventListener("submit", async(event) => {
         event.preventDefault();
