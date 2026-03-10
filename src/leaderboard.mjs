@@ -3,6 +3,7 @@
 export function getLanguages(users) {
     const languages = [];
     for(let user of users) {
+        if (!user.ranks || !user.ranks.languages) continue;
         let availableLanguages = user.ranks.languages
 
         for(let [language, val] of Object.entries(availableLanguages)) {
