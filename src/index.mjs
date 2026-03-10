@@ -49,6 +49,7 @@ if (typeof document !== "undefined") {
     });
 
     languageSelect.addEventListener("change", () => {
+        if(users.length === 0) return
         const selectedLanguage = languageSelect.value;
         const leaderboard = getLeaderboardData(users, selectedLanguage);
         renderTable(leaderboard);
