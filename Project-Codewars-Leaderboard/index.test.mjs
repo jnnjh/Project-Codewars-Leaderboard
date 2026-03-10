@@ -11,6 +11,7 @@ import test from "node:test";
 import assert from "node:assert";
 import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
+import { fetchUser, fetchAllUsers} from "./src/api.mjs";
 
 import { parseUsernames } from "./src/utility.mjs";
 import { getLanguages, getLeaderboardData, sortScoreByDesc } from "./src/leaderboard.mjs";
@@ -126,6 +127,7 @@ test("mock test of getting the leaderboard data of users depending on the langua
 })
 
 
+test("fetchUser returns a user from the Codewars API", async () => {
 test("mock test of sorting the leaderboard score in descending order", () => {
     const input = [
         { username: 'alice', clan: 'Alpha', score: 900 },
@@ -140,3 +142,201 @@ test("mock test of sorting the leaderboard score in descending order", () => {
     assert.deepStrictEqual(sortScoreByDesc(input), output)
 })
 
+    const mockResponse = {
+        username: "joanne",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 1200 },
+            languages: {
+                javascript: { score: 600 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/joanne")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("joanne");
+
+    assert.strictEqual(result.username, "joanne");
+
+});
+
+test("fetchUser returns correctly formatted user data", async () => {
+
+    const mockResponse = {
+        username: "john",
+        clan: "warriors",
+        ranks: {
+            overall: { score: 1500 },
+            languages: {
+                javascript: { score: 800 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/john")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("john");
+    console.log(result);
+
+    assert.deepStrictEqual(result, {
+        username: "john",
+        clan: "warriors",
+        ranks: {
+            overall: { score: 1500 },
+            languages: {
+                javascript: { score: 800 }
+            }
+        }
+    });
+
+});
+
+test("fetchUser handles users with no clan", async () => {
+
+    const mockResponse = {
+        username: "alice",
+        clan: null,
+        ranks: {
+            overall: { score: 1000 },
+            languages: {
+                python: { score: 500 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/alice")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("alice");
+
+    assert.strictEqual(result.clan, null);
+
+});
+
+test("fetchUser returns all language ranks", async () => {
+
+    const mockResponse = {
+        username: "jhoie",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 2000 },
+            languages: {
+                javascript: { score: 1000 },
+                python: { score: 800 },
+                ruby: { score: 600 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/jhoie")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("jhoie");
+
+    assert.deepStrictEqual(result.ranks.languages, {
+        javascript: { score: 1000 },
+        python: { score: 800 },
+        ruby: { score: 600 }
+    });
+
+});
+
+test("fetchUser handles API 404 errors", async () => {
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/unknownuser")
+        .reply(404, {});
+
+    await assert.rejects(
+        async () => {
+        await fetchUser("unknownuser");
+        }
+    );
+
+});
+
+test("fetchUser works for multiple users", async () => {
+
+    const joanne = {
+        username: "joanne",
+        clan: "migracode",
+        ranks: {
+            overall: { score: 1200 },
+            languages: { javascript: { score: 600 } }
+        }
+    };
+
+    const jhoie = {
+        username: "jhoie",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 1400 },
+            languages: { python: { score: 700 } }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/joanne")
+        .reply(200, joanne);
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/jhoie")
+        .reply(200, jhoie);
+
+    const user1 = await fetchUser("joanne");
+    const user2 = await fetchUser("jhoie");
+
+    assert.strictEqual(user1.username, "joanne");
+    assert.strictEqual(user2.username, "jhoie");
+
+});
+
+test("fetchAllUser returns data for multiple users", async () => {
+
+    const mockUser1 = {
+        username: "joanne",
+        clan: "migracode",
+        ranks: {
+            overall: { score: 1000 },
+            languages: {
+                javascript: { score: 500 }
+            }
+        }
+    };
+
+    const mockUser2 = {
+        username: "jhoie",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 1200 },
+            languages: {
+                python: { score: 700 }
+            }
+        }
+    };
+
+    const scope1 = nock("https://www.codewars.com")
+        .get("/api/v1/users/joanne")
+        .reply(200, mockUser1);
+
+    const scope2 = nock("https://www.codewars.com")
+        .get("/api/v1/users/jhoie")
+        .reply(200, mockUser2);
+
+    const result = await fetchAllUsers(["joanne", "jhoie"]);
+
+    assert.strictEqual(result.length, 2);
+    assert.strictEqual(result[0].username, "joanne");
+    assert.strictEqual(result[1].username, "jhoie");
+
+    assert(scope1.isDone());
+    assert(scope2.isDone());
+
+});
