@@ -12,7 +12,61 @@ import assert from "node:assert";
 import nock from "nock";
 import { makeFetchRequest } from "./src/index.mjs";
 
-test("mocks a fetch function", async () => {
+import { parseUsernames } from "./src/utility.mjs";
+import { getLanguages, getLeaderboardData, sortScoreByDesc } from "./src/leaderboard.mjs";
+
+const mockData = [
+        {
+            "username": "alice",
+            "name": "Alice Example",
+            "honor": 1500,
+            "clan": "Alpha",
+            "leaderboardPosition": 42,
+            "skills": ["javascript", "ruby", "python"],
+            "ranks": {
+                "overall": { "rank": -3, "name": "3 kyu", "color": "blue", "score": 2000 },
+                "languages": {
+                    "javascript": { "rank": -3, "name": "3 kyu", "color": "blue", "score": 1500 },
+                    "ruby": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 1000 }
+                }
+            },
+            "codeChallenges": { "totalAuthored": 2, "totalCompleted": 120 }
+        },
+        {
+            "username": "bob",
+            "name": "Bob Example",
+            "honor": 1200,
+            "clan": "Beta",
+            "leaderboardPosition": 85,
+            "skills": ["javascript", "python", "c#"],
+            "ranks": {
+                "overall": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 1800 },
+                "languages": {
+                    "javascript": { "rank": -3, "name": "3 kyu", "color": "blue", "score": 1200 },
+                    "python": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 900 }
+                }
+            },
+            "codeChallenges": { "totalAuthored": 1, "totalCompleted": 95 }
+        },
+        {
+            "username": "carol",
+            "name": "Carol Example",
+            "honor": 900,
+            "clan": "Gamma",
+            "leaderboardPosition": 120,
+            "skills": ["ruby", "coffeescript", "nodejs"],
+            "ranks": {
+                "overall": { "rank": -5, "name": "5 kyu", "color": "blue", "score": 1600 },
+                    "languages": {
+                        "ruby": { "rank": -4, "name": "4 kyu", "color": "blue", "score": 1100 },
+                        "coffeescript": { "rank": -5, "name": "5 kyu", "color": "blue", "score": 700 }
+                    }
+            },
+            "codeChallenges": { "totalAuthored": 0, "totalCompleted": 60 }
+        }
+    ];
+
+/*test("mocks a fetch function", async () => {
     // Create a fetch request "mock" using the nock library, which "replaces"
     // real requests with fake ones that we can control in the test using nock
     // functions.
@@ -31,5 +85,58 @@ test("mocks a fetch function", async () => {
     // the nock configuration.
     assert(scope.isDone() === true, "No matching fetch request has been made");
 });
+*/
 
+test("mock test of parsing of string inputs separated by comma", () => {
+    const input = "Jey, John, Joanne, Jhoie, Joxer, Jojo, Juba";
+    const output = ["Jey", "John", "Joanne", "Jhoie", "Joxer", "Jojo", "Juba"];
+    assert.deepStrictEqual(parseUsernames(input), output);
+})
+test("wehn parsing the usernames, it also trims spaces", () => {
+    const input = " Joanne , Joxer , Juju ";
+    const output = ["Joanne", "Joxer", "Juju"];
+    assert.deepStrictEqual(parseUsernames(input), output);
+})
+test("when parsing empty strings, it will return empty array", () => {
+    assert.deepStrictEqual(parseUsernames(""), []);
+})
+test("when only one username is inputed, it will return an array with only that input", () => {
+    assert.deepStrictEqual(parseUsernames("Jhoie"), ["Jhoie"]);
+})
+test("when parsing and there are consecutive commas but are empty, it will ignore all those empty spaces", () => {
+    const input = "John, , , Joanne, , Juju,   , Jeff";
+    const output = ["John", "Joanne", "Juju", "Jeff"];
+    assert.deepStrictEqual(parseUsernames(input), output);
+})
+
+
+test("mock test of getting the array of languages(and overall) of users to be shown in the dropdown selection", () => {
+    const output = ["overall", "coffeescript", "javascript", "python", "ruby"];
+    assert.deepStrictEqual(getLanguages(mockData), output);
+})
+
+
+test("mock test of getting the leaderboard data of users depending on the language selected", () => {
+    const selectedLanguage = "javascript"
+    const output = [
+            { username: 'alice', clan: 'Alpha', score: 1500 },
+            { username: 'bob', clan: 'Beta', score: 1200 }
+        ];
+    assert.deepStrictEqual(getLeaderboardData(mockData, selectedLanguage), output);
+})
+
+
+test("mock test of sorting the leaderboard score in descending order", () => {
+    const input = [
+        { username: 'alice', clan: 'Alpha', score: 900 },
+        { username: 'bob', clan: 'Beta', score: 1200 },
+        { username: 'charlie', clan: 'Omega', score: 1600 }
+    ]
+    const output = [
+        { username: 'charlie', clan: 'Omega', score: 1600 },
+        { username: 'bob', clan: 'Beta', score: 1200 },
+        { username: 'alice', clan: 'Alpha', score: 900 }
+    ]
+    assert.deepStrictEqual(sortScoreByDesc(input), output)
+})
 
