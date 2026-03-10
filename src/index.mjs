@@ -43,6 +43,7 @@ if (typeof document !== "undefined") {
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
         } catch(error) {
+            users = [];
             languageSelect.innerHTML = ""
             errorMessage.textContent = error.message;
         }

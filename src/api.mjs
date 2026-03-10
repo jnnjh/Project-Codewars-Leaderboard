@@ -26,6 +26,9 @@ export async function fetchUser(username) {
         //console.log(data);
         return data;
     } catch (error) {
+        if (error.message.includes("not found") || error.message.includes("Failed")) {
+            throw error;
+        }
         throw new Error(`Unable to reach Codewars API while fetching "${username}"`);
     }
 }
