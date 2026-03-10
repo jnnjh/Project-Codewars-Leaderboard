@@ -143,15 +143,50 @@ test("fetchUser returns all language ranks", async () => {
 
 test("fetchUser handles API 404 errors", async () => {
 
-  nock("https://www.codewars.com")
-    .get("/api/v1/users/unknownuser")
-    .reply(404, {});
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/unknownuser")
+        .reply(404, {});
 
-  await assert.rejects(
-    async () => {
-      await fetchUser("unknownuser");
-    }
-  );
+    await assert.rejects(
+        async () => {
+        await fetchUser("unknownuser");
+        }
+    );
 
 });
 
+test("fetchUser works for multiple users", async () => {
+
+    const joanne = {
+        username: "joanne",
+        clan: "migracode",
+        ranks: {
+            overall: { score: 1200 },
+            languages: { javascript: { score: 600 } }
+        }
+    };
+
+    const jhoie = {
+        username: "jhoie",
+        clan: "ladycoders",
+        ranks: {
+            overall: { score: 1400 },
+            languages: { python: { score: 700 } }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/joanne")
+        .reply(200, joanne);
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/jhoie")
+        .reply(200, jhoie);
+
+    const user1 = await fetchUser("joanne");
+    const user2 = await fetchUser("jhoie");
+
+    assert.strictEqual(user1.username, "joanne");
+    assert.strictEqual(user2.username, "jhoie");
+
+});
