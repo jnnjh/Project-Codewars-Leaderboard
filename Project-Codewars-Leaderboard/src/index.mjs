@@ -59,4 +59,13 @@ if (typeof document !== "undefined") {
             tableBody.appendChild(row);
         });
     }
+
+    const languages = getLanguages(users);
+    languageSelect.innerHTML = "";
+    languages.forEach((language) => {
+        const option = document.createElement("option");
+        option.value = language;
+        option.textContent = language;
+        languageSelect.appendChild(option);
+    });
 }
