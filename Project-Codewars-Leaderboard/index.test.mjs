@@ -89,5 +89,27 @@ test("fetchUser returns correctly formatted user data", async () => {
 
 });
 
+test("fetchUser handles users with no clan", async () => {
+
+    const mockResponse = {
+        username: "alice",
+        clan: null,
+        ranks: {
+            overall: { score: 1000 },
+            languages: {
+                python: { score: 500 }
+            }
+        }
+    };
+
+    nock("https://www.codewars.com")
+        .get("/api/v1/users/alice")
+        .reply(200, mockResponse);
+
+    const result = await fetchUser("alice");
+
+    assert.strictEqual(result.clan, null);
+
+});
 
 
