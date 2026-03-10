@@ -80,6 +80,7 @@ button {
 button:hover {
   background: #a78bfa;
   transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(124,58,237,0.5);
 }
 
 select {
@@ -189,4 +190,17 @@ tbody tr:hover {
     font-size: 14px;
   }
 
+}
+
+.score-bar {
+  height: 6px;
+  background: #2f2f5e;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.score-fill {
+  height: 100%;
+  background: #7c3aed;
+  border-radius: 4px;
 }
