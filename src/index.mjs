@@ -58,6 +58,7 @@ if (typeof document !== "undefined") {
 
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
+            input.value = "";
         } catch(error) {
             users = [];
             languageSelect.innerHTML = "";
