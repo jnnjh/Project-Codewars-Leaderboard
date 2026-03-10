@@ -2,12 +2,38 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Codewars leaderboard</title>
+        <title>Codewars Leaderboard</title>
         <link rel="stylesheet" href="./assets/style.css">
     </head>
+
     <body>
-        <p>test</p>
+
+        <h1>Codewars Leaderboard</h1>
+
+        <form id="user-form">
+            <label for="user-input">Enter Codewars usernames</label>
+            <input
+                id="user-input"
+                type="text"
+                placeholder="CodeYourFuture,40thieves,SallyMcGrath"
+            >
+            <button type="submit">Generate Leaderboard</button>
+        </form>
+
+        <p id="error-message"></p>
+
+        <table id="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Clan</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
+
+        <script type="module" src="./src/index.mjs"></script>
+
     </body>
-    <script src="./src/index.mjs" type="module"></script>
 </html>
