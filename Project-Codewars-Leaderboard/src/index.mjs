@@ -5,6 +5,7 @@ import { getLeaderboardData } from "./leaderboard.mjs";
 export function makeFetchRequest() {
   return fetch("https://example.com/test");
 }
+let users = [];
 
 if (typeof document !== "undefined") {
     const form = document.querySelector("#user-form");
@@ -27,7 +28,7 @@ if (typeof document !== "undefined") {
         }
 
         try {
-            const users = await fetchAllUsers(usernames);
+            users = await fetchAllUsers(usernames);
             const leaderboard = getLeaderboardData(users, "overall");
             renderTable(leaderboard);
         } catch(error) {
