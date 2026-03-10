@@ -75,6 +75,4 @@ if (typeof document !== "undefined") {
             tableBody.appendChild(row);
         });
     }
-
-
 }
